@@ -1,0 +1,73 @@
+Sub ExportRangetoFile()
+'Updateby Extendoffice
+Dim Rng As Range
+Dim WorkRng As Range
+Dim xFile As Variant
+Dim xFileString As String
+On Error Resume Next
+xTitleId = "KutoolsforExcel"
+Set WorkRng = Application.Selection
+Set WorkRng = Application.InputBox("Range", xTitleId, WorkRng.Address, Type:=8)
+Application.ActiveSheet.Copy
+Application.ActiveSheet.Cells.Clear
+WorkRng.Copy Application.ActiveSheet.Range("A1")
+Set xFile = CreateObject("Scripting.FileSystemObject")
+xFileString = Application.GetSaveAsFilename("", filefilter:="Comma Separated Text (*.CSV), *.CSV")
+Application.ActiveWorkbook.SaveAs Filename:=xFileString, FileFormat:=xlCSV, CreateBackup:=False
+End Sub
+
+
+
+Private Sub exportarCSV()
+
+Dim rng As Range
+Set rng = Application.InputBox("Selecione o Quadro de Cargas", "Quadro de Cargas p/ .csv", Type:=8)
+
+Sheets("CSV").Cells.Clear
+
+rng.Copy
+Sheets("CSV").Select
+Range("A1").Select
+ActiveSheet.Paste
+'activesheet.savesas fileformat:-clCSV
+Dim csvName As String
+csvName = Cells(1, 1)
+
+ActiveWorkbook.SaveAs Filename:="C:\Users\User\Desktop\CSV\" & csvName, _
+FileFormat:=xlCSVUTF8, CreateBackup:=False
+
+End Sub
+
+
+
+https://www.youtube.com/watch?v=FIiTwmIpzi4
+https://stackoverflow.com/questions/22812235/using-vba-to-prompt-user-to-select-cells-possibly-on-different-sheet
+https://stackoverflow.com/questions/38324568/excel-vba-save-file-in-the-same-location-as-macro/38324661
+
+'---------------------------------------------------------------
+
+Sub ExportarCSV()
+
+
+Sheets(1).Select
+
+Dim rng As Range
+Set rng = Application.InputBox("Selecione o Quadro de Cargas", "Quadro de Cargas p/ .csv", Type:=8)
+
+Sheets("CSV").Cells.Clear
+
+rng.Copy
+Sheets("CSV").Select
+Range("A1").Select
+Range("A1").PasteSpecial Paste:=xlPasteValues
+Dim csvName As String
+csvName = Cells(1, 1)
+
+ActiveWorkbook.SaveAs Filename:="D:\DROPBOX\Dropbox\MK ENGENHARIA\2020\03-TIMELESS\ELÉTRICO\CSV\" & csvName, _
+FileFormat:=xlCSVUTF8, CreateBackup:=False
+
+Sheets(csvName).Name = "CSV"
+Sheets(1).Select
+
+End Sub
+
